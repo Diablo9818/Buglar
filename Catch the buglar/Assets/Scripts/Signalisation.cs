@@ -6,34 +6,47 @@ using UnityEngine;
 
 public class Signalisation : MonoBehaviour
 {
+    private AudioSource _signalSource;
+    [SerializeField] private Floor _floor;
+    private float _speedChageSound = 0.2f;
+    private Coroutine _coroutine;
 
-
-    private AudioSource _audioSource;
-    private AudioClip _audioClip;
-    private float _fadeTime = 1.0f;
-
-    private float _maxVolume = 1.0f;
-    private float _currentVolume = 0f;
-    private bool _isBuglarInside;
-
-    public float MaxVolume { get { return _maxVolume;} }
+    private readonly float _maxVolume = 1;
+    private readonly float _minVolume = 0;
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.volume = 0;
-        _audioClip = GetComponent<AudioClip>();
+        _signalSource = GetComponent<AudioSource>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-
+        _floor.StateChanged += OnStateChanged;
     }
 
-    public void PlaySound(float maxVolume)
+    private void OnDisable()
     {
-        _currentVolume = Mathf.MoveTowards(_currentVolume, maxVolume, Time.deltaTime / _fadeTime);
-        _audioSource.volume = _currentVolume;
+        _floor.StateChanged -= OnStateChanged;
     }
+
+    private void OnStateChanged(bool isIndide)
+    {
+        if(_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
+
+        _coroutine = StartCoroutine(VolumeChange(isIndide? _maxVolume: _minVolume));
+    }
+
+    private IEnumerator VolumeChange(float targetValue)
+    {
+        while(_signalSource.volume != targetValue)
+        {
+            _signalSource.volume = Mathf.MoveTowards(_signalSource.volume, targetValue, _speedChageSound * Time.deltaTime);
+            yield return null;
+        }
+    }
+
 
 }
