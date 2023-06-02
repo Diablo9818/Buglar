@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Signalisation : MonoBehaviour
 {
-    private AudioSource _signalSource;
     [SerializeField] private Floor _floor;
+    private AudioSource _signalSource;
     private float _speedChageSound = 0.2f;
     private Coroutine _coroutine;
 
@@ -47,6 +47,4 @@ public class Signalisation : MonoBehaviour
             yield return null;
         }
     }
-
-
 }
