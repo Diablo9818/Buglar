@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Signalisation : MonoBehaviour
 {
     [SerializeField] private Floor _floor;

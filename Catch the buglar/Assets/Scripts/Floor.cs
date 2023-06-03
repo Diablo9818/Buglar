@@ -7,7 +7,7 @@ public class Floor : MonoBehaviour
 {
     private bool _isBuglarInside;
 
-    public UnityAction<bool> StateChanged;
+    public event  UnityAction<bool> StateChanged;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
