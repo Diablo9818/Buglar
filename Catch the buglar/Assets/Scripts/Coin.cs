@@ -9,7 +9,6 @@ public class Coin : MonoBehaviour
         if (collision.gameObject.GetComponent<Buglar>())
         {
             Destroy(gameObject);
-            Debug.Log("Монетка украдена!");
         }
     }
 }
